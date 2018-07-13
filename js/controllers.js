@@ -12,15 +12,14 @@ angular.module('raw.controllers', [])
     $scope.$watch('jsonSearch',function(newval,olval){
       if(newval == olval) return;
 
-      //deep copy
-      if($scope.originaljson){
-        $scope.json = angular.copy($scope.originaljson);
-      }else{
-        $scope.originaljson = angular.copy($scope.json);
-      }
+      //var snapshot;
+      /*
+      if(!$scope.snapshot){
+        //first time only
+        $scope.snapshot = Defiant.getSnapshot($scope.json);
+      }*/
 
-      $scope.json = JSON.search($scope.json, newval);
-      //console.log($scope.originaljson);
+      $scope.json = JSON.search($scope.snapshot, newval);
     })
 
     // Clipboard
@@ -57,6 +56,9 @@ angular.module('raw.controllers', [])
       $scope.json = json;
       $scope.structure = [];
       expand(json);
+
+      //Snapshot the data
+      $scope.snapshot = Defiant.getSnapshot($scope.json);
     }
 
     // parse Text
@@ -71,7 +73,6 @@ angular.module('raw.controllers', [])
     $scope.uploadFile = file =>  {
 
       if (file.size) {
-
         $scope.loading = true;
 
         // excel
@@ -107,6 +108,20 @@ angular.module('raw.controllers', [])
             parseText(text);
           })
         }
+
+        // tableau xml
+        if (file.name.search(/\.twb|\.twbx/) != -1 || file.type.search('xml') != -1) {
+          //if xml: read as text and then convert it to json
+          dataService.loadText(file)
+          .then(text => {
+            $scope.fileName = file.name;
+            var doc = Defiant.xmlFromString(text),
+            json = Defiant.node.toJSON(doc.documentElement);
+            //parseText(text);
+            selectArray(json);
+          })
+        }
+
       }
     };
 

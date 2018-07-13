@@ -46,8 +46,6 @@ angular.module('raw.services', [])
 
 				loadURL : function(url) {
 
-
-
 				},
 
 				loadExcel : function(file){
