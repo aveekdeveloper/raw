@@ -121,6 +121,10 @@
 
 						</div>
 
+
+						<p ng-show="json" class="help-block">You may select a node using XPATH query</p>
+						<input type="text" class="form-control margin-bottom" ng-model="jsonSearch" placeholder="//*" ng-show="json" ></input>
+
 						<div class="json-viewer margin-bottom" json-viewer json="json" ng-show="json" on-select="antani"></div>
 
 						<p ng-show="json" class="help-block">Please select the array <strong>[ ]</strong> containing the records you want to load from the JSON above.</p>

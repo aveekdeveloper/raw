@@ -8,6 +8,21 @@ angular.module('raw.controllers', [])
 
     $scope.loading = false;
 
+    //jsonSearch
+    $scope.$watch('jsonSearch',function(newval,olval){
+      if(newval == olval) return;
+
+      //deep copy
+      if($scope.originaljson){
+        $scope.json = angular.copy($scope.originaljson);
+      }else{
+        $scope.originaljson = angular.copy($scope.json);
+      }
+
+      $scope.json = JSON.search($scope.json, newval);
+      //console.log($scope.originaljson);
+    })
+
     // Clipboard
     $scope.$watch('clipboardText', text =>  {
       if (!text) return;
