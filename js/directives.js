@@ -62,7 +62,7 @@ angular.module('raw.directives', [])
 
 								cel.append("i")
 								.classed("json-icon fa fa-plus-square-o pull-left","true")
-								.on("click", d => {
+								.on("click", function() {
 									d3.event.stopPropagation();
 									d3.select(this.parentNode).classed("json-closed", function(){
 										return !d3.select(this).classed("json-closed");
