@@ -118,7 +118,10 @@ angular.module('raw.controllers', [])
             var doc = Defiant.xmlFromString(text),
             json = Defiant.node.toJSON(doc.documentElement);
             //parseText(text);
-            selectArray(json);
+            $scope.json = json;
+            $scope.structure = [];
+            $scope.snapshot = Defiant.getSnapshot($scope.json);
+            //selectArray(json);
           })
         }
 

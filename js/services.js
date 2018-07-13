@@ -21,6 +21,7 @@ angular.module('raw.services', [])
 					    var type = $.type(obj);
 					    var scalar = (type == "number" || type == "string" || type == "boolean" || type == "null");
 
+							/*
 					    if (type == "array" || type == "object") {
 					        var d = {};
 					        for (var i in obj) {
@@ -29,7 +30,27 @@ angular.module('raw.services', [])
 					        }
 
 					        return d;
+					    }*/
+
+							if (type == "object") {
+					        var d = {};
+					        for (var i in obj) {
+					            var newD = parse_object(obj[i], path + i + ".");
+					            $.extend(d, newD);
+					        }
+
+					        return d;
 					    }
+
+							if (type == "array") {
+					        var d = {};
+									var newD = parse_object(JSON.stringify(obj), path);
+									$.extend(d, newD);
+
+					        return d;
+					    }
+
+
 
 					    else if (scalar) {
 					        var d = {};
